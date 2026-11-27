@@ -1,0 +1,287 @@
+/* ==========================================================================
+   BASE — Architectural Drafting Desk Canvas, Typography & Accessibility
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  color: var(--ink);
+  transition: background-color var(--dur-base) ease, color var(--dur-base) ease;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Subtle Architectural Drafting Grid + Warm Studio Desk Top Light */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse 68% 42% at 50% -4%, var(--bg-glow), transparent 72%),
+    linear-gradient(to right, var(--bg-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--bg-grid) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 25%, #000 35%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 25%, #000 35%, transparent 100%);
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ring);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focused Workspace Shell (slightly wider to let index-card grid breathe) */
+.app-shell {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) var(--space-6);
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+@media (min-width: 600px) {
+  .app-shell {
+    padding: var(--space-7) var(--space-6) var(--space-7);
+    gap: var(--space-5);
+  }
+}
+
+.main-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Quiet keyboard legend (desktop only) */
+.kbd-footer {
+  margin-top: auto;
+  padding-top: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+}
+
+.kbd-footer-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kbd-cap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  box-shadow: 0 1px 0 var(--keycap-shadow);
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  line-height: 1;
+}
+
+@media (max-width: 599px), (hover: none) {
+  .kbd-footer,
+  .keycap-hint,
+  .desktop-kbd {
+    display: none;
+  }
+}
+
+/* Full-bleed Minimal Editorial Footer */
+.site-footer {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  background-color: var(--surface-subtle);
+}
+
+.site-footer-inner {
+  width: 100%;
+  padding: 20px clamp(20px, 5vw, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-variant-numeric: slashed-zero tabular-nums;
+  color: var(--ink-faint);
+}
+
+.site-footer-copy,
+.site-footer-tag {
+  line-height: 1;
+  user-select: none;
+}
+
+/* Keyframes */
+@keyframes autoFillShrink {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+@keyframes subtleShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  55% { transform: translateX(5px); }
+  80% { transform: translateX(-2px); }
+}
+
+@keyframes cardDeal {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes stampPop {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes islandIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes urgentPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.animate-shake {
+  animation: subtleShake 280ms var(--ease-out) both;
+}
+
+.animate-card-deal {
+  animation: cardDeal 260ms var(--ease-out) both;
+}
+
+/* Custom subtle scrollbars */
+.word-list-scroll::-webkit-scrollbar,
+.kamus-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.word-list-scroll::-webkit-scrollbar-track,
+.kamus-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.word-list-scroll::-webkit-scrollbar-thumb,
+.kamus-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--border-strong);
+  border-radius: var(--radius-pill);
+}
+
+/* Strict prefers-reduced-motion compliance (Devigner UI standard) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-shake,
+  .animate-card-deal {
+    animation: none !important;
+  }
+}

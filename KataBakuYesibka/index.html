@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KataBaku SNBT — Kartu Latihan KBBI V &amp; EYD V</title>
+
+  <!-- Typography: Editorial 2-font system + JetBrains Mono for specimen metadata -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/views.css" />
+
+  <!-- Modular Scripts (classic defer — works via file:// and any HTTP server) -->
+  <script defer src="js/data/vocabulary.js"></script>
+  <script defer src="js/icons.js"></script>
+  <script defer src="js/storage.js"></script>
+  <script defer src="js/audio.js"></script>
+  <script defer src="js/engine.js"></script>
+  <script defer src="js/render.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- ==================== TOP BAR ==================== -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">K</span>
+        <div class="brand-text">
+          <h1 class="brand-title">KataBaku</h1>
+          <span class="brand-badge">SNBT</span>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <button
+          id="btn-autonext"
+          type="button"
+          class="switch-pill"
+          role="switch"
+          aria-checked="true"
+          aria-label="Aktifkan atau matikan auto-lanjut soal"
+        >
+          <span class="switch-label">Auto-lanjut</span>
+          <span class="switch-track" aria-hidden="true">
+            <span class="switch-thumb"></span>
+          </span>
+        </button>
+
+        <button
+          id="btn-sound"
+          type="button"
+          class="icon-btn"
+          aria-label="Aktifkan atau matikan efek suara"
+        ></button>
+
+        <!-- 3 Curated Card-Deck Themes -->
+        <div id="theme-switcher" class="theme-switcher" role="group" aria-label="Pilih tema kartu">
+          <button
+            type="button"
+            class="theme-dot-btn"
+            data-theme-choice="dark"
+            aria-pressed="true"
+            title="Obsidian & Kuningan"
+            aria-label="Tema Obsidian dan Kuningan"
+          >
+            <span class="theme-swatch is-dark" aria-hidden="true"></span>
+          </button>
+          <button
+            type="button"
+            class="theme-dot-btn"
+            data-theme-choice="forest"
+            aria-pressed="false"
+            title="Botani & Matcha"
+            aria-label="Tema Botani dan Matcha"
+          >
+            <span class="theme-swatch is-forest" aria-hidden="true"></span>
+          </button>
+          <button
+            type="button"
+            class="theme-dot-btn"
+            data-theme-choice="light"
+            aria-pressed="false"
+            title="Kertas Arsip"
+            aria-label="Tema Kertas Arsip"
+          >
+            <span class="theme-swatch is-light" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==================== SLIDING MODE NAVIGATION ==================== -->
+    <nav id="mode-nav" class="mode-nav" role="tablist" aria-label="Mode latihan">
+      <span id="mode-nav-indicator" class="mode-nav-indicator" aria-hidden="true"></span>
+
+      <button type="button" role="tab" class="mode-tab" data-mode="drill" aria-selected="true">
+        <span>Latihan</span>
+      </button>
+      <button type="button" role="tab" class="mode-tab" data-mode="survival" aria-selected="false">
+        <span>Survival</span>
+      </button>
+      <button type="button" role="tab" class="mode-tab" data-mode="speedrun" aria-selected="false">
+        <span>Speedrun</span>
+      </button>
+      <button type="button" role="tab" class="mode-tab" data-mode="mistakes" aria-selected="false">
+        <span>Bank salah</span>
+        <span id="mistakes-badge" class="tab-badge tabular is-hidden">0</span>
+      </button>
+      <button type="button" role="tab" class="mode-tab" data-mode="dictionary" aria-selected="false">
+        <span>Kamus</span>
+      </button>
+    </nav>
+
+    <!-- ==================== MODE INLINE CONTROLS ==================== -->
+    <section id="controls-region" class="controls-region" aria-label="Pengaturan latihan"></section>
+
+    <!-- ==================== MAIN ARENA ==================== -->
+    <main id="main-stage" class="main-stage"></main>
+
+    <!-- ==================== QUIET KEYBOARD LEGEND (DESKTOP) ==================== -->
+    <div class="kbd-footer" role="note" aria-label="Pintasan papan ketik">
+      <span class="kbd-footer-item">
+        <span class="kbd-cap">←</span>
+        <span class="kbd-cap">→</span>
+        <span>atau</span>
+        <span class="kbd-cap">A</span>
+        <span class="kbd-cap">D</span>
+        <span>pilih kartu</span>
+      </span>
+      <span class="kbd-footer-item">
+        <span class="kbd-cap">Spasi</span>
+        <span>kartu berikutnya</span>
+      </span>
+      <span class="kbd-footer-item">
+        <span class="kbd-cap">/</span>
+        <span>cari di kamus</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- ==================== SITE FOOTER ==================== -->
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <span class="site-footer-copy">&copy; 2026 YESIBKA</span>
+      <span class="site-footer-tag">FREE</span>
+    </div>
+  </footer>
+
+  <!-- Dynamic Status Pill Toasts -->
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+</body>
+</html>

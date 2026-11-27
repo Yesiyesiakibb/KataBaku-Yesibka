@@ -1,0 +1,924 @@
+/* ==========================================================================
+   COMPONENTS — Collector's Study Deck Architecture
+   - Topbar + 3-Theme Swatch Switcher + Uiverse tactile switch
+   - Cult UI sliding segmented mode navigation
+   - UI Layouts Physical Stacked Card Deck + Cult UI Texture Card bezel
+   - Aceternity 3D Perspective Tilt + Foil Spotlight Collector Choice Cards
+   - Tactile Primary / Secondary / Danger buttons
+   - Cult UI Dynamic Status Pill toasts
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TOP BAR, BRAND & 3-THEME SWATCH SWITCHER
+   -------------------------------------------------------------------------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 44px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-mark {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent-border);
+  background: var(--card-face);
+  box-shadow: var(--shadow-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+/* Tiny stacked corner detail on brand card mark */
+.brand-mark::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid var(--card-rule);
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.brand-text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.brand-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.48rem;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.brand-badge {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background-color: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+  line-height: 1.35;
+  flex-shrink: 0;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+/* Curated 3-Theme Deck Swatch Pill */
+.theme-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 42px;
+  padding: 4px 6px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  box-shadow: 0 1px 0 var(--inner-highlight) inset;
+}
+
+.theme-dot-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  transition: background-color var(--dur-fast) ease, border-color var(--dur-fast) ease, transform var(--dur-fast) var(--ease-out);
+}
+
+.theme-dot-btn:hover {
+  background-color: var(--surface-hover);
+}
+
+.theme-dot-btn[aria-pressed="true"] {
+  background-color: var(--surface-subtle);
+  border-color: var(--accent-border);
+}
+
+.theme-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.24);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+
+.theme-dot-btn[aria-pressed="true"] .theme-swatch {
+  transform: scale(1.14);
+}
+
+.theme-swatch.is-dark {
+  background: linear-gradient(135deg, #1A1E24 45%, #E0A83B 100%);
+}
+
+.theme-swatch.is-forest {
+  background: linear-gradient(135deg, #14261F 45%, #5AD196 100%);
+}
+
+.theme-swatch.is-light {
+  background: linear-gradient(135deg, #FFFDF9 45%, #B3720F 100%);
+  border-color: rgba(27, 25, 23, 0.24);
+}
+
+/* Icon Buttons */
+.icon-btn {
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  box-shadow: 0 1px 0 var(--inner-highlight) inset;
+  color: var(--ink-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  transition:
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    color var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.icon-btn:hover {
+  background-color: var(--surface-hover);
+  border-color: var(--border-strong);
+  color: var(--ink);
+}
+
+.icon-btn:active {
+  transform: scale(0.96);
+}
+
+.icon-btn.is-active {
+  border-color: var(--border-strong);
+  color: var(--ink);
+}
+
+/* Uiverse-inspired Tactile Switch Pill */
+.switch-pill {
+  min-height: 42px;
+  padding: 0 10px 0 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  box-shadow: 0 1px 0 var(--inner-highlight) inset;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease, background-color var(--dur-fast) ease;
+}
+
+.switch-pill:hover {
+  background-color: var(--surface-hover);
+  border-color: var(--border-strong);
+  color: var(--ink);
+}
+
+.switch-pill[aria-checked="true"] {
+  color: var(--ink);
+}
+
+.switch-label {
+  white-space: nowrap;
+}
+
+.switch-track {
+  position: relative;
+  width: 32px;
+  height: 18px;
+  border-radius: var(--radius-pill);
+  background-color: var(--surface-subtle);
+  border: 1px solid var(--border-strong);
+  flex-shrink: 0;
+  transition: background-color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+}
+
+.switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--ink-muted);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  transition: transform var(--dur-base) var(--ease-spring), background-color var(--dur-base) ease;
+}
+
+.switch-pill[aria-checked="true"] .switch-track {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.switch-pill[aria-checked="true"] .switch-thumb {
+  transform: translateX(14px);
+  background-color: var(--accent-ink);
+}
+
+@media (max-width: 540px) {
+  .topbar {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+  .topbar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .switch-pill {
+    padding: 0 10px 0 12px;
+    gap: 8px;
+    font-size: 0.78rem;
+    flex: 1;
+    justify-content: space-between;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. SLIDING SEGMENTED MODE NAVIGATION (Cult UI Pill Motion)
+   -------------------------------------------------------------------------- */
+.mode-nav {
+  position: relative;
+  background-color: var(--surface-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-1);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16) inset;
+}
+
+.mode-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.mode-nav-indicator {
+  position: absolute;
+  top: var(--space-1);
+  bottom: var(--space-1);
+  left: 0;
+  border-radius: var(--radius-md);
+  background: var(--card-face);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-pill);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(0);
+  transition:
+    transform 260ms var(--ease-out),
+    width 260ms var(--ease-out),
+    opacity 140ms ease;
+  z-index: 0;
+}
+
+.mode-nav-indicator.is-ready {
+  opacity: 1;
+}
+
+.mode-tab {
+  position: relative;
+  z-index: 1;
+  flex: 1 0 auto;
+  min-height: 40px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+  transition: color var(--dur-fast) ease;
+}
+
+.mode-tab:hover {
+  color: var(--ink);
+}
+
+.mode-tab[aria-selected="true"] {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.mode-nav:not(.has-indicator) .mode-tab[aria-selected="true"] {
+  background: var(--card-face);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-pill);
+}
+
+.tab-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  background-color: var(--wrong-soft);
+  border: 1px solid var(--wrong-border);
+  color: var(--wrong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.tab-badge.is-hidden {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   3. PHYSICAL STACKED CARD DECK SHELL (UI Layouts Stacking + Cult UI Texture)
+   -------------------------------------------------------------------------- */
+.deck-stack {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+/* Peeking stacked study cards beneath the active card */
+.deck-stack::before,
+.deck-stack::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  pointer-events: none;
+  transition: transform var(--dur-base) var(--ease-out), background-color var(--dur-base) ease;
+}
+
+.deck-stack::before {
+  top: 10px;
+  margin: 0 12px;
+  transform: translateY(7px);
+  background-color: var(--deck-layer-1);
+  z-index: 0;
+}
+
+.deck-stack::after {
+  top: 18px;
+  margin: 0 26px;
+  transform: translateY(13px);
+  background-color: var(--deck-layer-2);
+  opacity: 0.78;
+  z-index: -1;
+}
+
+.texture-card {
+  position: relative;
+  z-index: 1;
+  background-color: var(--surface-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 5px;
+  box-shadow: var(--shadow-deck);
+}
+
+.texture-card-inner {
+  position: relative;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius-xl) - 4px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hairline deck progress ribbon */
+.hairline-track {
+  width: 100%;
+  height: 3px;
+  background-color: var(--surface-subtle);
+  overflow: hidden;
+}
+
+.hairline-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+  transition: width 260ms var(--ease-out), background var(--dur-base) ease;
+}
+
+.hairline-fill.is-urgent {
+  background: var(--wrong);
+}
+
+/* --------------------------------------------------------------------------
+   4. COLLECTOR SPECIMEN CHOICE CARDS (Aceternity 3D Tilt + Foil Spotlight)
+   -------------------------------------------------------------------------- */
+.choices-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  perspective: 1100px;
+}
+
+@media (max-width: 540px) {
+  .choices-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}
+
+.choice-card {
+  --spot-x: 50%;
+  --spot-y: 50%;
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  width: 100%;
+  min-height: 196px;
+  padding: 0;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-strong);
+  background: var(--card-face);
+  box-shadow: var(--shadow-specimen);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  overflow: hidden;
+  user-select: none;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateY(var(--ry)) translateZ(0);
+  transition:
+    transform 180ms var(--ease-out),
+    box-shadow 180ms var(--ease-out),
+    border-color var(--dur-fast) ease,
+    background var(--dur-fast) ease,
+    opacity var(--dur-fast) ease;
+}
+
+/* Cursor-tracking Metallic Foil Spotlight */
+.choice-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(240px circle at var(--spot-x) var(--spot-y), var(--spotlight-color), transparent 68%),
+    radial-gradient(120px circle at var(--spot-x) var(--spot-y), var(--spotlight-sheen), transparent 60%);
+  opacity: 0;
+  transition: opacity 220ms ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Fine inner collector card frame border */
+.choice-card::after {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border-radius: calc(var(--radius-lg) - 6px);
+  border: 1px solid var(--card-rule);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.choice-card:not(:disabled):hover::before {
+  opacity: 1;
+}
+
+@media (max-width: 540px) {
+  .choice-card {
+    min-height: 118px;
+  }
+  .specimen-header {
+    padding: 9px 14px 7px;
+  }
+  .specimen-body {
+    padding: 14px 16px 18px;
+    gap: 6px;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .choice-card:not(:disabled):hover {
+    background: var(--card-face-hover);
+    border-color: var(--spotlight-border);
+    box-shadow: var(--shadow-specimen-hover);
+  }
+}
+
+.choice-card:not(:disabled):active,
+.choice-card.is-pressed {
+  transform: translateY(3px) scale(0.99);
+  box-shadow:
+    0 1px 0 var(--inner-highlight) inset,
+    0 1px 0 var(--keycap-shadow);
+}
+
+.choice-card:disabled {
+  cursor: default;
+  transform: none;
+}
+
+/* Specimen Card Top Metadata Bar (OPSI A · #042) */
+.specimen-header {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 13px 16px 9px;
+  border-bottom: 1px dashed var(--card-rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.specimen-slot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.specimen-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--corner-tick);
+  transition: background-color var(--dur-fast) ease, transform var(--dur-fast) ease;
+}
+
+.choice-card:not(:disabled):hover .specimen-dot {
+  background-color: var(--accent);
+  transform: scale(1.2);
+}
+
+.specimen-code {
+  font-variant-numeric: slashed-zero tabular-nums;
+  opacity: 0.85;
+}
+
+/* Specimen Center Stage */
+.specimen-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  width: 100%;
+  padding: var(--space-5) var(--space-4) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Editorial Headword Typography */
+.choice-word {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.65rem, 4.2vw, 2.35rem);
+  line-height: 1.16;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  word-break: break-word;
+  max-width: 100%;
+}
+
+/* Animated Proofreader's Red-Pen Strikethrough */
+.choice-word::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  top: 54%;
+  height: 2.5px;
+  border-radius: 2px;
+  background-color: var(--wrong);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 250ms var(--ease-out);
+  pointer-events: none;
+}
+
+.choice-card.is-nonstandard .choice-word {
+  color: var(--ink-muted);
+}
+
+.choice-card.is-nonstandard .choice-word::after {
+  transform: scaleX(1);
+}
+
+/* Verdict Card States */
+.choice-card.is-standard {
+  border-color: var(--correct-border);
+  background: linear-gradient(180deg, var(--correct-soft), var(--surface-subtle));
+  box-shadow:
+    0 1px 0 var(--inner-highlight) inset,
+    0 3px 0 var(--correct);
+}
+
+.choice-card.is-standard .specimen-dot {
+  background-color: var(--correct);
+}
+
+.choice-card.is-standard .choice-word {
+  color: var(--ink);
+}
+
+.choice-card.is-wrong-picked {
+  border-color: var(--wrong-border);
+  background: linear-gradient(180deg, var(--wrong-soft), var(--surface-subtle));
+  box-shadow:
+    0 1px 0 var(--inner-highlight) inset,
+    0 3px 0 var(--wrong);
+}
+
+.choice-card.is-wrong-picked .specimen-dot {
+  background-color: var(--wrong);
+}
+
+.choice-card.is-wrong-picked .choice-word {
+  color: var(--ink);
+}
+
+.choice-card.is-nonstandard:not(.is-wrong-picked) {
+  opacity: 0.68;
+  box-shadow: 0 2px 0 var(--border);
+}
+
+/* Verdict Archival Stamp Tag */
+.verdict-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  min-height: 24px;
+  animation: stampPop 200ms var(--ease-spring) both;
+}
+
+.verdict-tag.is-baku {
+  background-color: var(--correct-soft);
+  border: 1px solid var(--correct-border);
+  color: var(--correct);
+}
+
+.verdict-tag.is-tidak-baku {
+  background-color: var(--wrong-soft);
+  border: 1px solid var(--wrong-border);
+  color: var(--wrong);
+}
+
+.verdict-tag.is-placeholder {
+  visibility: hidden;
+  animation: none;
+}
+
+/* Corner Keycap Hints */
+.keycap-hint {
+  position: absolute;
+  bottom: 12px;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--ink-faint);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 0 var(--keycap-shadow);
+  border-radius: 5px;
+  padding: 1px 6px;
+  line-height: 1.45;
+  pointer-events: none;
+  transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+.choice-card:not(:disabled):hover .keycap-hint {
+  color: var(--ink-muted);
+  border-color: var(--border-strong);
+}
+
+.keycap-hint.is-left {
+  left: 12px;
+}
+
+.keycap-hint.is-right {
+  right: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   5. BUTTONS
+   -------------------------------------------------------------------------- */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  min-height: 44px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-md);
+  background-color: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset, 0 3px 10px -2px rgba(0, 0, 0, 0.25);
+  transition:
+    background-color var(--dur-fast) ease,
+    transform 95ms var(--ease-out),
+    box-shadow var(--dur-fast) ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.btn-secondary {
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--card-face);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 1px 0 var(--inner-highlight) inset;
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease, transform 95ms ease;
+}
+
+.btn-secondary:hover {
+  background: var(--card-face-hover);
+}
+
+.btn-secondary:active {
+  transform: translateY(1px);
+}
+
+.btn-danger {
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--wrong);
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter var(--dur-fast) ease, transform 95ms ease;
+}
+
+.btn-danger:hover {
+  filter: brightness(1.06);
+}
+
+.quiet-link-btn {
+  min-height: 36px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-xs);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color var(--dur-fast) ease, background-color var(--dur-fast) ease;
+}
+
+.quiet-link-btn:hover {
+  color: var(--ink);
+  background-color: var(--surface-hover);
+}
+
+.desktop-kbd {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.16);
+  color: inherit;
+}
+
+.btn-progress-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.45);
+  transform-origin: left center;
+  animation-name: autoFillShrink;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+[data-theme="dark"] .btn-progress-bar,
+[data-theme="forest"] .btn-progress-bar {
+  background-color: rgba(13, 15, 18, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   6. DYNAMIC STATUS PILL (Cult UI Dynamic Island-inspired Toast)
+   -------------------------------------------------------------------------- */
+.toast-region {
+  position: fixed;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  width: calc(100% - 32px);
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  pointer-events: none;
+}
+
+.toast-item {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--surface-elevated);
+  color: var(--ink);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  padding: 9px 16px;
+  font-size: 0.83rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-toast);
+  animation: islandIn 240ms var(--ease-spring) both;
+}
+
+.toast-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.toast-item.is-correct {
+  border-color: var(--correct-border);
+}
+
+.toast-item.is-correct .toast-dot {
+  background-color: var(--correct);
+}
